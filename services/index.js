@@ -34,12 +34,6 @@ const validateUser = async (userId) => {
     const userProfile = userProfiles.find((x) => x.userUid === user?.uid);
     const isRegistered = user && userProfile;
 
-    console.log({
-        user,
-        userProfile,
-        isRegistered
-    });
-
     if (!isRegistered) { return false; }
 
     const { birthdate } = userProfile;
@@ -59,17 +53,6 @@ const validateUser = async (userId) => {
     return isRegistered && isAgeLegal;
 }
 
-/**
- * This will send the email
- * @param {object} userObject 
- */
-const sendEmail = (userObject) => {
-    console.log('Testing sending');
-}
-
 module.exports  = {
     validateUser,
 };
-
-// If the child is not registered (no match for the user id) or more than 10years old,
-// the webapp should display a basic error page with an error message explaining the problem.

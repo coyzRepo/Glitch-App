@@ -6,7 +6,8 @@ const schedule = require('node-schedule');
 
 
 // Generate SMTP service account from ethereal.email
-const EmailResponse = nodemailer.createTestAccount((err, account) => {
+function sendMail () {
+ nodemailer.createTestAccount((err, account) => {
     let user = process.env.EMAILUSERNAME;
     let pass = process.env.EMAILPASS;
 
@@ -50,4 +51,4 @@ const EmailResponse = nodemailer.createTestAccount((err, account) => {
         });
     });
 });
-module.exports = EmailResponse;
+};

@@ -7,7 +7,7 @@ const morgan = require('morgan');
 const app = express();
 const bodyParser = require('body-parser');
 const services = require('./services');
-// require('./services/nodemailer');
+const axios = require('axios');
 
 
 
@@ -26,24 +26,31 @@ app.get('/', (request, response) => {
 });
 
 app.post('/', async (request, response) => {
-  console.log('I AM HERE', request.body);
 
-  const { userid: userId, wish } = request.body;
-  const { validateUser } = services;
-  
-  if (!userId) {
-    response.send('Invalid form data');
+  try {
+        // console.log('I AM HERE', request.body);
+
+    const { userid: userId, wish } = request.body;
+    const { validateUser } = services;
+    
+    if (!userId) {
+      return response.status(400).sendFile(__dirname + '/views/error.html');
+    }
+
+    const isValidUser = await validateUser(userId);
+    
+    if (isValidUser) {
+      // show success page
+      response.sendFile(__dirname + '/views/success.html');
+    } else {
+      //show error page
+      response.sendFile(__dirname + '/views/error.html');    
+    }
+  } catch (error) {
+    response.status(500).sendFile(__dirname + '/views/error.html');
+    console.log(error);
   }
 
-  const isValidUser = await validateUser(userId);
-  
-  if (isValidUser) {
-    // show success page
-    response.sendFile(__dirname + '/views/success.html');
-  } else {
-    //show error page
-    response.sendFile(__dirname + '/views/error.html');    
-  }
 });
 
 // listen for requests :)

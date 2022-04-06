@@ -35,6 +35,7 @@ app.post('/', async (request, response) => {
     }
     
     const isValidUser = await validateUser(userId);
+    console.log(isValidUser);
 
     if (isValidUser) {
       queueMessage(userId, wish); // queueing request via pushing into array
